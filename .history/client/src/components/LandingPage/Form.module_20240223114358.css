@@ -1,0 +1,8 @@
+.formContainer{
+  display: flex;
+  height: 60%;
+  background-color: white;
+}
+.firstSlide{
+  height: 100%;
+}

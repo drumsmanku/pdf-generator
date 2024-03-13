@@ -1,0 +1,24 @@
+.container{
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../../assets/doctor.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.mainContent{
+  height: 88%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 4rem;
+}
+.availableDoctors{
+  width: 10rem;
+  background-color: aliceblue;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+.navbar{
+  height: 12%;
+}

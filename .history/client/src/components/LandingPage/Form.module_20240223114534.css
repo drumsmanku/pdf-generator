@@ -1,0 +1,12 @@
+.formContainer{
+  display: flex;
+  height: 60%;
+  background-color: white;
+  flex-direction: column;
+}
+.firstSlide{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
