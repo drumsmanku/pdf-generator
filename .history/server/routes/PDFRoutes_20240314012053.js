@@ -9,14 +9,11 @@ router.post('/generate-pdf', async (req, res) => {
   const { htmlContent } = req.body; 
   
   const browser = await puppeteer.launch({
-    headless: true,
-    devtools: true,
     args: [
-        '--disable-web-security',
-        '--disable-features=IsolateOrigins',
-        '--disable-site-isolation-trials'
-    ]
-});
+      '--disable-web-security',
+    ],
+    headless: false,
+  });
   const page = await browser.newPage();
   
   await page.setContent(htmlContent, { waitUntil: 'networkidle0' }); 
