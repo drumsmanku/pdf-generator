@@ -19,7 +19,9 @@ function DownloadPage() {
     }
     const htmlContent = document.documentElement.innerHTML;
     try {
-      const response = await axios.post('http://localhost:4000/generate-pdf', { htmlContent },{ responseType: 'blob' });
+      const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+      const apiUrl = 'https://pdf-generator-3.onrender.com/generate-pdf';
+      const response = await axios.post(corsAnywhereUrl + apiUrl, { htmlContent }, { responseType: 'blob' });
       
       const { data } = response;
       const pdfBlob = new Blob([data], { type: 'application/pdf' });
