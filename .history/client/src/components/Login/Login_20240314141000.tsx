@@ -35,7 +35,7 @@ function Login() {
   const login = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/login', user)
+      .post('http://locahost:4000/login', user)
       .then((res) => {
         localStorage.setItem('token', res.data.jwtToken);
         localStorage.setItem('user', res.data.name);

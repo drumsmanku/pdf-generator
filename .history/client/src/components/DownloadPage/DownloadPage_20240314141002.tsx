@@ -13,22 +13,15 @@ function DownloadPage() {
 
   const handleGeneratePDF = async () => {
     const buttonContainer = document.getElementById('downloadButtonContainer');
-  
+
     if (buttonContainer) {
       buttonContainer.style.display = 'none';
     }
     const htmlContent = document.documentElement.innerHTML;
     try {
-      const response = await fetch('http://localhost:4000/generate-pdf', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ htmlContent }),
-        mode: 'cors', // Bypass CORS
-      });
-  
-      const data = await response.blob();
+      const response = await axios.post('http://locahost:4000/generate-pdf', { htmlContent },{ responseType: 'blob' });
+      
+      const { data } = response;
       const pdfBlob = new Blob([data], { type: 'application/pdf' });
       const downloadUrl = window.URL.createObjectURL(pdfBlob);
       const link = document.createElement('a');
@@ -36,17 +29,17 @@ function DownloadPage() {
       link.setAttribute('download', 'products.pdf'); 
       document.body.appendChild(link);
       link.click();
-      dispatch(clearProducts());
-      navigate('/add-products');
+      dispatch(clearProducts())
+      navigate('/add-products')
     } catch (error) {
       console.error('Error generating PDF:', error);
-    } finally {
+    }
+    finally {
       if (buttonContainer) {
         buttonContainer.style.display = 'block';
       }
     }
   };
-  
   return (
     <div className='h-screen w-screen'>
       <div className='h-[10%] lg:h-[12%] flex justify-around items-center'>
