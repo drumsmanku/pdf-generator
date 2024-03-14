@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 app.options("*", (req, res) => {
   console.log("preflight");
   if (
-    req.headers.origin === "https://pdf-gen-hysl.onrender.com" &&
+    req.headers.origin === "https://badmintown.onrender.com" &&
     allowMethods.includes(req.headers["access-control-request-method"]) &&
     allowHeaders.includes(req.headers["access-control-request-headers"])
   ) {
