@@ -9,9 +9,9 @@ app.use(cors());
 
 
 app.use((req, res, next) => {
-  res.setHeader(
+  req.header(
     "Access-Control-Allow-Origin",
-    "https://flourishing-tiramisu-5c80ce.netlify.app/"
+    "*"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
