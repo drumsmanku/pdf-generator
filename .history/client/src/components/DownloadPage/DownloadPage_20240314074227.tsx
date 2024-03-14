@@ -19,7 +19,7 @@ function DownloadPage() {
     }
     const htmlContent = document.documentElement.innerHTML;
     try {
-      const response = await axios.post('http://localhost:4000/generate-pdf', { htmlContent },{ responseType: 'blob' });
+      const response = await axios.post('https://green-hen-tux.cyclic.app/generate-pdf', { htmlContent },{ responseType: 'blob' });
       
       const { data } = response;
       const pdfBlob = new Blob([data], { type: 'application/pdf' });

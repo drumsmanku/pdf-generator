@@ -6,10 +6,6 @@ router.use(cors());
 
 
 router.post('/generate-pdf', async (req, res) => {
-  
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'POST');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
   const { htmlContent } = req.body; 
   
   const browser = await puppeteer.launch({
@@ -30,12 +26,21 @@ router.post('/generate-pdf', async (req, res) => {
   const pdfBuffer = await page.pdf({ format: 'A4' });
   
   await browser.close();
-  
-  
-  res.writeHead(200, {
-    'Content-Length': Buffer.byteLength(pdfBuffer),
-    'Content-Type': 'application/pdf',
-    'Content-disposition': 'attachment;filename=download.pdf',
-  }).end(pdfBuffer);
+  db.collection('html_contents').insertOne({ htmlContent }, (err, result) => {
+    if (err) {
+      console.error('Error inserting HTML content into MongoDB:', error);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    console.log('HTML content saved to MongoDB');
+
+    // Send PDF as response
+    res.writeHead(200, {
+      'Content-Length': Buffer.byteLength(pdfBuffer),
+      'Content-Type': 'application/pdf',
+      'Content-disposition': 'attachment;filename=download.pdf',
+    }).end(pdfBuffer);
+  });
 });
 module.exports=router

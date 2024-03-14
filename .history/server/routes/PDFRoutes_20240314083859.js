@@ -6,10 +6,6 @@ router.use(cors());
 
 
 router.post('/generate-pdf', async (req, res) => {
-  
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'POST');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
   const { htmlContent } = req.body; 
   
   const browser = await puppeteer.launch({

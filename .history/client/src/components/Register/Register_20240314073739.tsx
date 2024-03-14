@@ -37,7 +37,7 @@ function Register() {
   const signup = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     axios
-      .post('http://localhost:4000/signup', user)
+      .post('https://green-hen-tux.cyclic.app//signup', user)
       .then((res) => {
         localStorage.setItem('token', res.data.jwtToken);
         localStorage.setItem('user', res.data.name);

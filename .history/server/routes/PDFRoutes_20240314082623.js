@@ -3,14 +3,14 @@ const puppeteer = require('puppeteer');
 const router = express.Router();
 const cors = require('cors');
 router.use(cors());
-
+const mongoose = require('mongoose');
+var pdfSchema = new Schema({}, { strict: false });
+const Pdf = mongoose.model('Pdf', pdfSchema);
 
 router.post('/generate-pdf', async (req, res) => {
-  
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'POST');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
   const { htmlContent } = req.body; 
+  var pdfData=new Pdf(htmlContent);
+  pdfData.save();
   
   const browser = await puppeteer.launch({
     headless: true,
@@ -30,7 +30,6 @@ router.post('/generate-pdf', async (req, res) => {
   const pdfBuffer = await page.pdf({ format: 'A4' });
   
   await browser.close();
-  
   
   res.writeHead(200, {
     'Content-Length': Buffer.byteLength(pdfBuffer),
