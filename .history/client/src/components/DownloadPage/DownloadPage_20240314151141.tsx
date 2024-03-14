@@ -13,19 +13,27 @@ function DownloadPage() {
 
   const handleGeneratePDF = async () => {
     const buttonContainer = document.getElementById('downloadButtonContainer');
+  
     if (buttonContainer) {
       buttonContainer.style.display = 'none';
     }
-
     const htmlContent = document.documentElement.innerHTML;
     try {
-      const response = await axios.post('http://localhost:4000/generate-pdf', { htmlContent }, { responseType: 'blob' });
-      
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-      const downloadUrl = URL.createObjectURL(pdfBlob);
+      const response = await fetch('https://pdf-gen-hysl.onrender.com/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ htmlContent }),
+        mode: 'no-cors', // Bypass CORS
+      });
+  
+      const data = await response.blob();
+      const pdfBlob = new Blob([data], { type: 'application/pdf' });
+      const downloadUrl = window.URL.createObjectURL(pdfBlob);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', 'products.pdf');
+      link.setAttribute('download', 'products.pdf'); 
       document.body.appendChild(link);
       link.click();
       dispatch(clearProducts());

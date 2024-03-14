@@ -2,6 +2,7 @@ import { Product } from '../../store/features/productsSlice';
 import { RootState } from '../../store/features/productsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { jsPDF } from "jspdf";
 import { useNavigate } from 'react-router-dom';
 import { clearProducts } from '../../store/features/productsSlice';
 
@@ -12,30 +13,34 @@ function DownloadPage() {
   const dispatch = useDispatch();
 
   const handleGeneratePDF = async () => {
-    const buttonContainer = document.getElementById('downloadButtonContainer');
-    if (buttonContainer) {
-      buttonContainer.style.display = 'none';
-    }
-
-    const htmlContent = document.documentElement.innerHTML;
+    const doc = new jsPDF();
+  
+    doc.text("Your page content goes here. Format as needed.", 10, 10);
+    // This is a basic example. You need to format your content as required.
+  
+    const pdfBlob = doc.output("blob");
+  
     try {
-      const response = await axios.post('http://localhost:4000/generate-pdf', { htmlContent }, { responseType: 'blob' });
-      
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-      const downloadUrl = URL.createObjectURL(pdfBlob);
+      const response = await axios.post(
+          'https://your-backend-service.com/api/generate-pdf', 
+          pdfBlob, 
+          { 
+              headers: { 'Content-Type': 'application/pdf' }, 
+              responseType: 'blob' // Important to handle binary data
+          }
+      );
+  
+      const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', 'products.pdf');
+      link.setAttribute('download', 'products.pdf'); 
       document.body.appendChild(link);
       link.click();
+      // Dispatch and Navigate as earlier
       dispatch(clearProducts());
       navigate('/add-products');
     } catch (error) {
       console.error('Error generating PDF:', error);
-    } finally {
-      if (buttonContainer) {
-        buttonContainer.style.display = 'block';
-      }
     }
   };
   
