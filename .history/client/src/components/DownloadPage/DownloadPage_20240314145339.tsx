@@ -18,14 +18,13 @@ function DownloadPage() {
       buttonContainer.style.display = 'none';
     }
     const htmlContent = document.documentElement.innerHTML;
-
     try {
       const response = await fetch('https://pdf-gen-hysl.onrender.com/generate-pdf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(products),
+        body: JSON.stringify( htmlContent ),
         mode: 'no-cors', // Bypass CORS
       });
   
